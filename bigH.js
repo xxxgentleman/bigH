@@ -3,10 +3,10 @@ var fs = require('fs'),
     selfClosingTagList = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'],
     Reader, Scanner, Parser, bigH;
 
-States.START_STATE = 0;         // ªì©lª¬ºA
-States.STRING_STATE = 1;		// ¦r¦ê
-States.COMMENT_STATE = 2;		// µùÄÀ
-States.IDENTIFIER_STATE = 3;    // ÃÑ§O¦r
+States.START_STATE = 0;
+States.STRING_STATE = 1;
+States.COMMENT_STATE = 2;
+States.IDENTIFIER_STATE = 3;
 
 Reader = function (string) {
     var data = string,
@@ -194,6 +194,7 @@ Parser = function (scanner, jsData) {
                             continue;
                         case '}':
                             advance();
+                            first = false;
 
                             if (selfClosingTagList.indexOf(tag) === -1) {
                                 parsedString += '>';
@@ -263,7 +264,7 @@ Parser = function (scanner, jsData) {
                     switch (lookAhead('text')) {
                         case ':':
                             advance();
-                            
+
                             if (lookAhead('text') !== 'true') {
                                 parsedObj += '=';
                             };
